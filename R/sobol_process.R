@@ -37,49 +37,49 @@ sobol_process <- function(x, pars, times){
              big_T = greater1_T))
   })
   
-  if(any(check_indices["neg_S.minor", ])){
-    # "Repair" first order indices being slightly negative by setting them to 0:
-    for(i in seq_along(ST_by_state)[check_indices["neg_S.minor", ]]){
-      check_neg_S.minor <- -0.05 <= ST_by_state[[i]]$S & ST_by_state[[i]]$S < 0
-      ST_by_state[[i]]$S[check_neg_S.minor] <- 0
-    }
-  }
+#   if(any(check_indices["neg_S.minor", ])){
+#     # "Repair" first order indices being slightly negative by setting them to 0:
+#     for(i in seq_along(ST_by_state)[check_indices["neg_S.minor", ]]){
+#       check_neg_S.minor <- -0.05 <= ST_by_state[[i]]$S & ST_by_state[[i]]$S < 0
+#       ST_by_state[[i]]$S[check_neg_S.minor] <- 0
+#     }
+#   }
   
-  if(any(check_indices["big_T.minor", ])){
-    # "Repair" total indices being slightly bigger than 1 by setting them to 1:
-    for(i in seq_along(ST_by_state)[check_indices["big_T.minor", ]]){
-      check_big_T.minor <- 1 < ST_by_state[[i]]$T & ST_by_state[[i]]$T <= 1.05
-      ST_by_state[[i]]$T[check_big_T.minor] <- 1
-    }
-  }
+#   if(any(check_indices["big_T.minor", ])){
+#     # "Repair" total indices being slightly bigger than 1 by setting them to 1:
+#     for(i in seq_along(ST_by_state)[check_indices["big_T.minor", ]]){
+#       check_big_T.minor <- 1 < ST_by_state[[i]]$T & ST_by_state[[i]]$T <= 1.05
+#       ST_by_state[[i]]$T[check_big_T.minor] <- 1
+#     }
+#   }
   
-  if(any(check_indices["neg_S.major", ])){
-    states_concerned <- paste0("\"", 
-      names(ST_by_state)[check_indices["neg_S.major", ]], "\"", collapse = ", ")
-    warning("Negative first order indices (< -0.05) for state variable(s) ",
-            states_concerned, " detected. Argument \"n\" might be too low. If ",
-            "using a higher value for \"n\" doesn't help, please check if ",
-            "the parameter distributions (\"rfuncs\") and their arguments ", 
-            "(\"rargs\") generate valid parameter values.",
-            call. = FALSE)
-  }
+#   if(any(check_indices["neg_S.major", ])){
+#     states_concerned <- paste0("\"", 
+#       names(ST_by_state)[check_indices["neg_S.major", ]], "\"", collapse = ", ")
+#     warning("Negative first order indices (< -0.05) for state variable(s) ",
+#             states_concerned, " detected. Argument \"n\" might be too low. If ",
+#             "using a higher value for \"n\" doesn't help, please check if ",
+#             "the parameter distributions (\"rfuncs\") and their arguments ", 
+#             "(\"rargs\") generate valid parameter values.",
+#             call. = FALSE)
+#   }
   
-  if(any(check_indices["big_T.major", ])){
-    states_concerned <- paste0("\"", 
-      names(ST_by_state)[check_indices["big_T.major", ]], "\"", collapse = ", ")
-    warning("Total indices > 1.05 for state variable(s) ", states_concerned, 
-            " detected. Argument \"n\" might be too low. If ",
-            "using a higher value for \"n\" doesn't help, please check if ",
-            "the parameter distributions (\"rfuncs\") and their arguments ", 
-            "(\"rargs\") generate valid parameter values.",
-            call. = FALSE)
-  }
+#   if(any(check_indices["big_T.major", ])){
+#     states_concerned <- paste0("\"", 
+#       names(ST_by_state)[check_indices["big_T.major", ]], "\"", collapse = ", ")
+#     warning("Total indices > 1.05 for state variable(s) ", states_concerned, 
+#             " detected. Argument \"n\" might be too low. If ",
+#             "using a higher value for \"n\" doesn't help, please check if ",
+#             "the parameter distributions (\"rfuncs\") and their arguments ", 
+#             "(\"rargs\") generate valid parameter values.",
+#             call. = FALSE)
+#   }
   
-  if(any(check_indices[c("big_S", "neg_T"), ])){
-    warning("First order indices > 1 and/or negative total indices detected. ",
-            "This shouldn't happen. Please contact the package author.",
-            call. = FALSE)
-  }
+#   if(any(check_indices[c("big_S", "neg_T"), ])){
+#     warning("First order indices > 1 and/or negative total indices detected. ",
+#             "This shouldn't happen. Please contact the package author.",
+#             call. = FALSE)
+#   }
   
   return(ST_by_state)
 }
