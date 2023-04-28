@@ -209,19 +209,6 @@ ODEsobol.default <- function(mod,
   times <- sort(times)
   stopifnot(!any(times == 0))
   assertIntegerish(n, lower = 2)
-  assertCharacter(rfuncs)
-  if(! length(rfuncs) %in% c(1, length(pars))){
-    stop("Argument \"rfuncs\" must be of length 1 or of the same length as ",
-         "\"pars\"")
-  }
-  assertCharacter(rargs)
-  if(! length(rargs) %in% c(1, length(pars))){
-    stop("Argument \"rargs\" must be of length 1 or of the same length as ",
-         "\"pars\"")
-  }
-  if(! all(sapply(rfuncs, exists))){
-    stop("At least one of the supplied functions in \"rfuncs\" was not found")
-  }
   stopifnot(sobol_method %in% c("Jansen", "Martinez"))
   stopifnot(ode_method %in% c("lsoda", "lsode", "lsodes","lsodar","vode", 
                               "daspk", "euler", "rk4", "ode23", "ode45", 
