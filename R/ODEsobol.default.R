@@ -191,10 +191,10 @@ ODEsobol.default <- function(mod,
                              pars,
                              state_init,
                              times,
-                             n = 1000,
-                             rfuncs = "runif",
-                             rargs = "min = 0, max = 1",
-                             sobol_method = "Martinez",
+                             n = 1024,
+                             Xmatrix1,
+                             Xmatrix2,
+                             sobol_method = "Jansen",
                              ode_method = "lsoda",
                              parallel_eval = FALSE,
                              parallel_eval_ncores = NA, ...){
@@ -275,15 +275,17 @@ ODEsobol.default <- function(mod,
   
   # Create the two matrices containing the parameter samples for Monte Carlo
   # estimation:
-  if(length(rfuncs) == 1){
-    rfuncs <- rep(rfuncs, length(pars))
-  }
-  if(length(rargs) == 1){
-    rargs <- rep(rargs, length(pars))
-  }
-  rfunc_calls <- paste0(rfuncs, "(n, ", rargs, ")", collapse = ", ")
-  X1 <- matrix(eval(parse(text = paste0("c(", rfunc_calls, ")"))), ncol = k)
-  X2 <- matrix(eval(parse(text = paste0("c(", rfunc_calls, ")"))), ncol = k)
+#   if(length(rfuncs) == 1){
+#     rfuncs <- rep(rfuncs, length(pars))
+#   }
+#   if(length(rargs) == 1){
+#     rargs <- rep(rargs, length(pars))
+#   }
+#   rfunc_calls <- paste0(rfuncs, "(n, ", rargs, ")", collapse = ", ")
+#   X1 <- matrix(eval(parse(text = paste0("c(", rfunc_calls, ")"))), ncol = k)
+#   X2 <- matrix(eval(parse(text = paste0("c(", rfunc_calls, ")"))), ncol = k)
+  X1 <- Xmatrix1
+  X2 <- Xmatrix2
   colnames(X1) <- colnames(X2) <- pars
   
   ##### Sensitivity analysis ###########################################
