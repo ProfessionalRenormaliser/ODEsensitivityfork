@@ -240,7 +240,7 @@ ODEsobol.default <- function(mod,
     one_par <- function(i){
       # Resolve the ODE system by using ode() from the package "deSolve":
       ode(state_init, times = c(0, times), mod, parms = X[i, ], 
-          method = ode_method, rtol = 1e-10, atol = 1e-10, maxsteps = 10000)[2:(timesNum + 1), 2:(z + 1), drop = FALSE]
+          method = ode_method, rtol = 1e-3, atol = 1e-3, maxsteps = 10000)[2:(timesNum + 1), 2:(z + 1), drop = FALSE]
     }
     if(parallel_eval){
       # Run one_par() on parallel nodes:
