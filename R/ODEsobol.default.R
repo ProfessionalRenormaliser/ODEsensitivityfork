@@ -273,7 +273,6 @@ ODEsobol.default <- function(mod,
   rfunc_calls <- paste0(rfuncs, "(n, ", rargs, ")", collapse = ", ")
   X1 <- matrix(eval(parse(text = paste0("c(", rfunc_calls, ")"))), ncol = k)
   X2 <- matrix(eval(parse(text = paste0("c(", rfunc_calls, ")"))), ncol = k)
-  print(X1)
   write.table(X1,file="X1.csv",row.names=FALSE) # drops the rownames
   write.table(X2,file="X2.csv",row.names=FALSE) # drops the rownames
   # X1 <- Xmatrix1
