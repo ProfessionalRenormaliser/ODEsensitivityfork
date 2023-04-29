@@ -192,8 +192,10 @@ ODEsobol.default <- function(mod,
                              state_init,
                              times,
                              n = 1024,
-                             Xmatrix1,
-                             Xmatrix2,
+                             Xmatrix1 = NA,
+                             Xmatrix2 = NA,
+                             rfuncs = "runif",
+                             rargs = "min = 0, max = 1",
                              sobol_method = "Jansen",
                              ode_method = "lsoda",
                              parallel_eval = FALSE,
@@ -262,17 +264,19 @@ ODEsobol.default <- function(mod,
   
   # Create the two matrices containing the parameter samples for Monte Carlo
   # estimation:
-#   if(length(rfuncs) == 1){
-#     rfuncs <- rep(rfuncs, length(pars))
-#   }
-#   if(length(rargs) == 1){
-#     rargs <- rep(rargs, length(pars))
-#   }
-#   rfunc_calls <- paste0(rfuncs, "(n, ", rargs, ")", collapse = ", ")
-#   X1 <- matrix(eval(parse(text = paste0("c(", rfunc_calls, ")"))), ncol = k)
-#   X2 <- matrix(eval(parse(text = paste0("c(", rfunc_calls, ")"))), ncol = k)
-  X1 <- Xmatrix1
-  X2 <- Xmatrix2
+  if(length(rfuncs) == 1){
+    rfuncs <- rep(rfuncs, length(pars))
+  }
+  if(length(rargs) == 1){
+    rargs <- rep(rargs, length(pars))
+  }
+  rfunc_calls <- paste0(rfuncs, "(n, ", rargs, ")", collapse = ", ")
+  X1 <- matrix(eval(parse(text = paste0("c(", rfunc_calls, ")"))), ncol = k)
+  X2 <- matrix(eval(parse(text = paste0("c(", rfunc_calls, ")"))), ncol = k)
+  write.table(X1,file="X1.csv",row.names=FALSE) # drops the rownames
+  write.table(X2,file="X2.csv",row.names=FALSE) # drops the rownames
+  # X1 <- Xmatrix1
+  # X2 <- Xmatrix2
   colnames(X1) <- colnames(X2) <- pars
   
   ##### Sensitivity analysis ###########################################
