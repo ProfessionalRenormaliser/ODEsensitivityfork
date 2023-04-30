@@ -199,7 +199,9 @@ ODEsobol.default <- function(mod,
                              sobol_method = "Jansen",
                              ode_method = "lsoda",
                              parallel_eval = FALSE,
-                             parallel_eval_ncores = NA, ...){
+                             parallel_eval_ncores = NA,
+                             debug = TRUE,
+                             ...){
 
   ##### Input checks ###################################################
   
@@ -271,12 +273,15 @@ ODEsobol.default <- function(mod,
     rargs <- rep(rargs, length(pars))
   }
   rfunc_calls <- paste0(rfuncs, "(n, ", rargs, ")", collapse = ", ")
+  if(debug==TRUE) {
   X1 <- matrix(eval(parse(text = paste0("c(", rfunc_calls, ")"))), ncol = k)
   X2 <- matrix(eval(parse(text = paste0("c(", rfunc_calls, ")"))), ncol = k)
-  write.table(X1,file="X1.csv",row.names=FALSE) # drops the rownames
-  write.table(X2,file="X2.csv",row.names=FALSE) # drops the rownames
-  # X1 <- Xmatrix1
-  # X2 <- Xmatrix2
+   } else if(debug==FALSE){   
+#   write.table(X1,file="X1.csv",row.names=FALSE) # drops the rownames
+#   write.table(X2,file="X2.csv",row.names=FALSE) # drops the rownames
+  X1 <- Xmatrix1
+  X2 <- Xmatrix2
+   }
   colnames(X1) <- colnames(X2) <- pars
   
   ##### Sensitivity analysis ###########################################
@@ -287,6 +292,10 @@ ODEsobol.default <- function(mod,
     x <- soboljansen(model = model_fit, X1, X2, nboot = 0)
   } else if(sobol_method == "Martinez"){
     x <- sobolmartinez(model = model_fit, X1, X2, nboot = 0)
+  } else if(sobol_method == "2002"){
+    x <- sobol2002(model = model_fit, X1, X2, nboot = 0)
+  } else if(sobol_method == "2007"){
+    x <- sobol2007(model = model_fit, X1, X2, nboot = 0)
   }
   
   # Process the results:
