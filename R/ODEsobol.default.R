@@ -292,10 +292,6 @@ ODEsobol.default <- function(mod,
     x <- soboljansen(model = model_fit, X1, X2, nboot = 0)
   } else if(sobol_method == "Martinez"){
     x <- sobolmartinez(model = model_fit, X1, X2, nboot = 0)
-  } else if(sobol_method == "2002"){
-    x <- sobol2002(model = model_fit, X1, X2, nboot = 0)
-  } else if(sobol_method == "2007"){
-    x <- sobol2007(model = model_fit, X1, X2, nboot = 0)
   }
   
   # Process the results:
